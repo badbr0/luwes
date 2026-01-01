@@ -39,6 +39,6 @@ class SewaController extends Controller
             'total_biaya'  => $total,
         ]);
 
-        return redirect('/')->with('success', 'Pemesanan berhasil! Kami akan hubungi Anda segera.');
+        return redirect()->route('home')->with('success', 'Pemesanan berhasil! Kami akan hubungi Anda segera.');
     }
 }

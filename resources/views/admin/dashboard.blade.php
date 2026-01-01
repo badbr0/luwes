@@ -22,6 +22,10 @@
                 <a href="{{route('admin.alat.index') }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg">
                     Kelola Alat
                 </a>
+<br><br>
+                <a href="{{ route('admin.pesanan.index') }}" class="bg-yellow-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg">
+                    Lihat Pesanan Masuk
+                </a>
             </div>
         </div>
     </div>

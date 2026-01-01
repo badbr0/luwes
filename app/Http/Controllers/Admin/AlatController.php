@@ -20,9 +20,9 @@ class AlatController extends Controller
         return view('admin.alat.create');
     }
 
-    public function store(Request $request, Alat $alat)
+    public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'merk' => 'required|string|max:255',
             'tipe' => 'required|in:dump_truck,excavator',
             'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 1),
@@ -32,21 +32,16 @@ class AlatController extends Controller
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
-        $data = $request->except('_token', '_method');  // ← PASTIKAN EXCEPT TOKEN & METHOD
-
         if ($request->hasFile('foto')) {
-            // Hapus foto lama kalau ada
-            if ($alat->foto) {
-                Storage::disk('public')->delete($alat->foto);
-            }
-            // Simpan foto baru
             $path = $request->file('foto')->store('alat', 'public');
-            $data['foto'] = $path;  // ← PASTIKAN PATH DISIMPAN KE $data
+            $validated['foto'] = $path;
         }
 
-        $alat->update($data);  // ← UPDATE PAKE $data YANG UDAH ADA FOTO BARU
+        $validated['status'] = 'tersedia'; // default
 
-        return redirect()->route('admin.alat.index')->with('success', 'Alat berhasil diupdate!');
+        Alat::create($validated);
+
+        return redirect()->route('admin.alat.index')->with('success', 'Alat berhasil ditambahkan!');
     }
 
     public function show(Alat $alat)
@@ -62,8 +57,7 @@ class AlatController extends Controller
 
     public function update(Request $request, Alat $alat)
     {
-        
-        $request->validate([
+        $validated = $request->validate([
             'merk' => 'required|string|max:255',
             'tipe' => 'required|in:dump_truck,excavator',
             'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 1),
@@ -73,17 +67,16 @@ class AlatController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
-        $data = $request->all();
-
         if ($request->hasFile('foto')) {
+            // Hapus foto lama
             if ($alat->foto) {
                 Storage::disk('public')->delete($alat->foto);
             }
             $path = $request->file('foto')->store('alat', 'public');
-            $data['foto'] = $path;
+            $validated['foto'] = $path;
         }
 
-        $alat->update($data);
+        $alat->update($validated);
 
         return redirect()->route('admin.alat.index')->with('success', 'Alat berhasil diupdate!');
     }

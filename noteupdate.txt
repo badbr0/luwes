@@ -1,12 +1,23 @@
-  __ _     _     _                           
-  __ _  ___  / _(_) __| | __| | ___  _ __ ___   ___ ___ 
- / _` |/ _ \| |_| |/ _` |/ _` |/ _ \| '_ ` _ \ / __/ _ \
-| (_| | (_) |  _| | (_| | (_| | (_) | | | | | | (_|  __/
- \__, |\___/|_| |_|\__,_|\__,_|\___/|_| |_| |_|\___\___|
- |___/                                                  
+  ____    __    ____  ____  ____   __   
+/\  _`\ /\ \  /\  _`\/\  _`\/\  _`\/\ \  
+\ \ \/\ \ \ \ \ \ \L\ \ \ \L\ \ \ \L\ \ \ \ 
+ \ \ \ \ \ \ \ \ \  _ <\ \  _ <\ \ ,  /\ \ \ 
+  \ \ \_\ \ \ \_\ \ \L\ \ \ \L\ \ \ \\ \ \ \_\
+   \ \____/\ \____/\ ____/\ \____/\ \_\\ \____\
+    \/___/  \/___/  \/___/  \/___/  \/_/ \/____/  by badbr0                                                
 
     :.:31/12/2025:.:
     1.install framework
     2.dashboard basic
     3.form opsi sewa alat
     4.update loginpage admin,dashboard,dkk
+
+    .:01/01/2026:.
+      feat(MVP): complete web sewa alat berat
+    - Halaman home publik dengan daftar alat responsif
+    - Form sewa dengan hitung total otomatis
+    - Admin panel dengan Breeze auth
+    - CRUD alat lengkap + upload foto (drag & drop + preview)
+    - Daftar pesanan masuk + detail + ubah status
+    - Responsive Tailwind + navbar conditional (guest/admin)
+    - Fix semua mass assignment & date format
