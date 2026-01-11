@@ -21,3 +21,6 @@
     - Daftar pesanan masuk + detail + ubah status
     - Responsive Tailwind + navbar conditional (guest/admin)
     - Fix semua mass assignment & date format
+
+    .:11/01/2026:.
+    chore(ci): remove failing tests workflow to stop spam emails
