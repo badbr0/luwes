@@ -19,3 +19,15 @@ export default {
 
     plugins: [forms],
 };
+
+module.exports = {
+    darkMode: 'class',  // pake class 'dark' di <html>
+    content: [
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+    ],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+}
