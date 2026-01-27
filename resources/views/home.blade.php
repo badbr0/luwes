@@ -1,6 +1,18 @@
 <x-app-layout>
+    @if (session('success'))
+        <div class="mb-4 rounded-lg bg-green-100 px-4 py-3 text-green-800">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="mb-4 rounded-lg bg-red-100 px-4 py-3 text-red-800">
+            {{ $errors->first() }}
+        </div>
+    @endif
     <!-- Hero Section - Super Readable -->
-    <div class="relative min-h-screen bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1570545906975-08a05d3852da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+    <div class="relative min-h-screen bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1570545906975-08a05d3852da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
         <!-- Overlay lebih gelap biar teks 100% kebaca -->
         <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/80 to-black/90"></div>
 
@@ -14,10 +26,12 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-6">
-                <a href="#alat" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold text-xl md:text-2xl px-10 md:px-16 py-5 md:py-6 rounded-full transition transform hover:scale-105 shadow-2xl">
+                <a href="#alat"
+                    class="inline-block bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold text-xl md:text-2xl px-10 md:px-16 py-5 md:py-6 rounded-full transition transform hover:scale-105 shadow-2xl">
                     LIHAT DAFTAR ALAT
                 </a>
-                <a href="#hubungi" class="inline-block bg-transparent border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-gray-900 font-bold text-xl md:text-2xl px-10 md:px-16 py-5 md:py-6 rounded-full transition transform hover:scale-105">
+                <a href="#hubungi"
+                    class="inline-block bg-transparent border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-gray-900 font-bold text-xl md:text-2xl px-10 md:px-16 py-5 md:py-6 rounded-full transition transform hover:scale-105">
                     HUBUNGI KAMI
                 </a>
             </div>
@@ -26,38 +40,40 @@
 
     {{-- carousel mode --}}
     <div class="relative min-h-screen">
-    <div class="swiper hero-swiper h-screen">
-        <div class="swiper-wrapper">
-            <!-- Slide 1 -->
-            <div class="swiper-slide relative">
-                <img src="https://images.unsplash.com/photo-1523660778745-247ed0bcce31?auto=format&fit=crop&w=1920&q=80" class="w-full h-full object-cover" alt="Dump Truck">
-                <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
-                    <div class="text-center text-white px-6">
-                        <h1 class="text-5xl md:text-7xl font-extrabold mb-6">SEWA DUMP TRUCK</h1>
-                        <p class="text-2xl md:text-4xl">Kapasitas Besar • Harga Bersaing</p>
+        <div class="swiper hero-swiper h-screen">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide relative">
+                    <img src="https://images.unsplash.com/photo-1523660778745-247ed0bcce31?auto=format&fit=crop&w=1920&q=80"
+                        class="w-full h-full object-cover" alt="Dump Truck">
+                    <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <div class="text-center text-white px-6">
+                            <h1 class="text-5xl md:text-7xl font-extrabold mb-6">SEWA DUMP TRUCK</h1>
+                            <p class="text-2xl md:text-4xl">Kapasitas Besar • Harga Bersaing</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Slide 2 -->
-            <div class="swiper-slide relative">
-                <img src="https://images.unsplash.com/photo-1649807533255-bbc9c9fb7d77?auto=format&fit=crop&w=1920&q=80" class="w-full h-full object-cover" alt="Excavator">
-                <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
-                    <div class="text-center text-white px-6">
-                        <h1 class="text-5xl md:text-7xl font-extrabold mb-6">EXCAVATOR SIAP</h1>
-                        <p class="text-2xl md:text-4xl">Unit Terbaru • Operator Profesional</p>
+                <!-- Slide 2 -->
+                <div class="swiper-slide relative">
+                    <img src="https://images.unsplash.com/photo-1649807533255-bbc9c9fb7d77?auto=format&fit=crop&w=1920&q=80"
+                        class="w-full h-full object-cover" alt="Excavator">
+                    <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <div class="text-center text-white px-6">
+                            <h1 class="text-5xl md:text-7xl font-extrabold mb-6">EXCAVATOR SIAP</h1>
+                            <p class="text-2xl md:text-4xl">Unit Terbaru • Operator Profesional</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Tambah slide lain sesuai kebutuhan -->
+                <!-- Tambah slide lain sesuai kebutuhan -->
+            </div>
+            <!-- Navigation -->
+            <div class="swiper-button-next text-white"></div>
+            <div class="swiper-button-prev text-white"></div>
+            <div class="swiper-pagination"></div>
         </div>
-        <!-- Navigation -->
-        <div class="swiper-button-next text-white"></div>
-        <div class="swiper-button-prev text-white"></div>
-        <div class="swiper-pagination"></div>
     </div>
-</div>
 
     <!-- Daftar Alat Section -->
     <section id="alat" class="py-20 bg-gray-50">
@@ -67,22 +83,25 @@
                     Koleksi Alat Berat Terbaik
                 </h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Pilih unit yang sesuai kebutuhan proyek Anda. Semua alat terawat, siap operasi, dan harga transparan.
+                    Pilih unit yang sesuai kebutuhan proyek Anda. Semua alat terawat, siap operasi, dan harga
+                    transparan.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse ($alats as $alat)
-                    <div class="group bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4">
+                    <div
+                        class="group bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4">
                         <!-- Foto + Badge -->
                         <div class="relative h-64 overflow-hidden">
-                            <img src="{{ $alat->foto ? asset('storage/' . $alat->foto) : 'https://via.placeholder.com/600x400?text=' . $alat->merk }}" 
-                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-                                 alt="{{ $alat->merk }}">
+                            <img src="{{ $alat->foto ? asset('storage/' . $alat->foto) : 'https://via.placeholder.com/600x400?text=' . $alat->merk }}"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                alt="{{ $alat->merk }}">
 
                             <!-- Badge Status -->
                             <div class="absolute top-4 right-4">
-                                <span class="inline-flex items-center px-5 py-2 rounded-full text-sm font-bold bg-green-600 text-white shadow-lg">
+                                <span
+                                    class="inline-flex items-center px-5 py-2 rounded-full text-sm font-bold bg-green-600 text-white shadow-lg">
                                     Tersedia
                                 </span>
                             </div>
@@ -94,13 +113,15 @@
                                 {{ $alat->merk }}
                             </h3>
                             <p class="text-gray-600 mb-4">
-                                {{ ucwords(str_replace('_', ' ', $alat->tipe)) }} • {{ $alat->tahun }} • {{ $alat->kapasitas }} ton
+                                {{ ucwords(str_replace('_', ' ', $alat->tipe)) }} • {{ $alat->tahun }} •
+                                {{ $alat->kapasitas }} ton
                             </p>
                             <div class="text-4xl font-extrabold text-yellow-600 mb-6">
-                                Rp {{ number_format($alat->harga_sewa) }} <span class="text-xl font-normal">/ hari</span>
+                                Rp {{ number_format($alat->harga_sewa) }} <span class="text-xl font-normal">/
+                                    hari</span>
                             </div>
-                            <a href="{{ route('sewa.form', $alat) }}" 
-                               class="block w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-lg py-4 rounded-xl text-center transition transform hover:scale-105 shadow-md">
+                            <a href="{{ route('sewa.form', $alat) }}"
+                                class="block w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-lg py-4 rounded-xl text-center transition transform hover:scale-105 shadow-md">
                                 SEWA SEKARANG
                             </a>
                         </div>
@@ -123,27 +144,31 @@
             <p class="text-xl md:text-2xl mb-10">
                 Konsultasi gratis • Penawaran terbaik • Pelayanan 24 jam
             </p>
-            <a href="#hubungi" class="inline-block bg-white text-yellow-600 font-bold text-xl md:text-2xl px-12 md:px-16 py-5 md:py-6 rounded-full shadow-2xl hover:bg-gray-100 transition transform hover:scale-105">
+            <a href="#hubungi"
+                class="inline-block bg-white text-yellow-600 font-bold text-xl md:text-2xl px-12 md:px-16 py-5 md:py-6 rounded-full shadow-2xl hover:bg-gray-100 transition transform hover:scale-105">
                 HUBUNGI KAMI SEKARANG
             </a>
         </div>
     </section>
 
-    <!-- Footer -->
-    {{-- <footer class="bg-gray-900 text-gray-300 py-12">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-lg">&copy; {{ date('Y') }} CV Luwes. Semua hak cipta dilindungi.</p>
-            <p class="mt-4 text-gray-400">Dibuat dengan ❤️ oleh badbr0 🥷</p>
-        </div>
-    </footer> --}}
+    <!-- Footer layout -->
+    
 </x-app-layout>
 
 <style>
     .animate-fade-in-down {
         animation: fadeInDown 1s ease-out forwards;
     }
+
     @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-50px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>

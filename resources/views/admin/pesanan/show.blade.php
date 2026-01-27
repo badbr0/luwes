@@ -12,9 +12,22 @@
                     </div>
                     <div>
                         <h2 class="text-xl font-semibold mb-4">Alat yang Disewa</h2>
-                        <p><strong>Merk:</strong> {{ $pesanan->alat->merk }}</p>
+                        <p><strong>Merk:</strong> {{ $pesanan->alat->merk ?? '-' }}</p>
+                        <p><strong>Tipe:</strong>
+                            {{ $pesanan->alat ? ucwords(str_replace('_', ' ', $pesanan->alat->tipe)) : '-' }}</p>
+                        <p><strong>Harga / hari:</strong>
+                            Rp {{ $pesanan->alat ? number_format($pesanan->alat->harga_sewa) : 0 }}
+                        </p>
                         <p><strong>Tipe:</strong> {{ ucwords(str_replace('_', ' ', $pesanan->alat->tipe)) }}</p>
                         <p><strong>Harga / hari:</strong> Rp {{ number_format($pesanan->alat->harga_sewa) }}</p>
+                        <br>
+                        <p><strong>Status:</strong><span
+                                class="px-3 py-1 rounded-full text-white
+        @if ($pesanan->status === 'pending') bg-yellow-500
+        @elseif($pesanan->status === 'diterima') bg-blue-100
+        @else bg-green-600 @endif">
+                                {{ ucfirst($pesanan->status) }} </span>
+                        </p>
                     </div>
                 </div>
 
@@ -29,7 +42,8 @@
                 </div>
 
                 <div class="mt-8">
-                    <a href="{{ route('admin.pesanan.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg">
+                    <a href="{{ route('admin.pesanan.index') }}"
+                        class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg">
                         ← Kembali ke Daftar
                     </a>
                 </div>

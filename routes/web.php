@@ -11,7 +11,6 @@ use App\Http\Controllers\Admin\PesananController;
 // ROUTE PUBLIK (tanpa login)
 // ====================
 Route::get('/', [FrontendAlatController::class, 'index'])->name('home');
-
 Route::get('/sewa/{alat}', [SewaController::class, 'show'])->name('sewa.form');
 Route::post('/pesan', [SewaController::class, 'store'])->name('pesan.store');
 
@@ -53,4 +52,4 @@ Route::middleware('auth')->group(function () {
 // ====================
 // AUTH ROUTES (dari Breeze)
 // ====================
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

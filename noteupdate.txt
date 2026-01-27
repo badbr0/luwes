@@ -27,3 +27,6 @@
 
     .:14/01/2026:.
     feat(ui): revamp halaman home - hero section eye-catching, card alat dengan scale hover & badge status, CTA kuning nendang, + dark mode toggle
+
+    .:26/01/2026:.
+    feat: booking lifecycle guards, UX feedback, stabilize booking flow, admin status guard & detail view
