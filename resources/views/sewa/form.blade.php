@@ -16,8 +16,31 @@
                 <p class="text-4xl font-bold text-yellow-600"> Rp {{ number_format($alat->harga_sewa) }} <span
                         class="text-lg font-normal text-gray-600">/ hari</span> </p>
             </div>
-        </div> <!-- FORM -->
+        </div>
+
+        <!-- FORM -->
         <div class="bg-white rounded-2xl shadow-xl p-8">
+            {{-- SUCCESS --}}
+            @if (session('success'))
+                <div class="mb-4 rounded-lg bg-green-100 px-4 py-3 text-green-800">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            {{-- ERROR DARI LOGIC --}}
+            @if (session('error'))
+                <div class="mb-4 rounded-lg bg-red-100 px-4 py-3 text-red-800">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            {{-- ERROR VALIDATION --}}
+            @if ($errors->any())
+                <div class="mb-4 rounded-lg bg-red-100 px-4 py-3 text-red-800">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
             <h2 class="text-2xl font-bold mb-6">Form Pemesanan</h2>
             <form action="{{ route('pesan.store') }}" method="POST" id="formSewa"> @csrf <input type="hidden"
                     name="alat_id" value="{{ $alat->id }}">

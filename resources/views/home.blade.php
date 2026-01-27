@@ -1,15 +1,17 @@
 <x-app-layout>
+    <!--Flash Message-->
     @if (session('success'))
-        <div class="mb-4 rounded-lg bg-green-100 px-4 py-3 text-green-800">
-            {{ session('success') }}
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" x-transition
+            class="fixed top-6 right-6 z-50 bg-green-600 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="font-semibold">
+                {{ session('success') }}
+            </span>
         </div>
     @endif
 
-    @if ($errors->any())
-        <div class="mb-4 rounded-lg bg-red-100 px-4 py-3 text-red-800">
-            {{ $errors->first() }}
-        </div>
-    @endif
     <!-- Hero Section - Super Readable -->
     <div class="relative min-h-screen bg-cover bg-center"
         style="background-image: url('https://images.unsplash.com/photo-1570545906975-08a05d3852da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
@@ -100,10 +102,19 @@
 
                             <!-- Badge Status -->
                             <div class="absolute top-4 right-4">
-                                <span
-                                    class="inline-flex items-center px-5 py-2 rounded-full text-sm font-bold bg-green-600 text-white shadow-lg">
-                                    Tersedia
-                                </span>
+                                @if ($alat->status === 'tersedia')
+                                    <span class="px-5 py-2 rounded-full text-sm font-bold bg-green-600 text-white">
+                                        Tersedia
+                                    </span>
+                                @elseif ($alat->status === 'pending')
+                                    <span class="px-5 py-2 rounded-full text-sm font-bold bg-yellow-500 text-white">
+                                        Pending
+                                    </span>
+                                @else
+                                    <span class="px-5 py-2 rounded-full text-sm font-bold bg-red-600 text-white">
+                                        Disewa
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -152,7 +163,7 @@
     </section>
 
     <!-- Footer layout -->
-    
+
 </x-app-layout>
 
 <style>

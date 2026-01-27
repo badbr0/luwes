@@ -30,3 +30,6 @@
 
     .:26/01/2026:.
     feat: booking lifecycle guards, UX feedback, stabilize booking flow, admin status guard & detail view
+
+    .:27/01/2026:.
+    feat: improve booking flow with status-based availability (antidoublebook) and success toast UX
