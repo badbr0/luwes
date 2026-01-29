@@ -25,9 +25,9 @@ class SewaController extends Controller
 
         $alat = Alat::findOrFail($request->alat_id);
 
-        //Cek konflik tanggal
+        // Cek konflik tanggal: HANYA PESANAN DITERIMA
         $conflict = Pesanan::where('alat_id', $alat->id)
-            ->whereIn('status', ['pending', 'diterima'])
+            ->where('status', 'diterima')
             ->where('tgl_mulai', '<=', $request->tgl_sewa)
             ->where('tgl_selesai', '>=', $request->tgl_mulai)
             ->exists();

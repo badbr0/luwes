@@ -101,18 +101,36 @@
                                 alt="{{ $alat->merk }}">
 
                             <!-- Badge Status -->
+                            @php
+                                $today = now();
+
+                                $activeOrders = $alat->pesanans->where('status', 'diterima')->sortBy('tgl_mulai');
+
+                                $currentOrder = $activeOrders->first(function ($order) use ($today) {
+                                    return $today->between($order->tgl_mulai, $order->tgl_selesai);
+                                });
+
+                                $nextOrder = $activeOrders->where('tgl_mulai', '>', $today)->first();
+
+                                $displayOrder = $currentOrder ?? $nextOrder;
+                            @endphp
+
                             <div class="absolute top-4 right-4">
-                                @if ($alat->status === 'tersedia')
-                                    <span class="px-5 py-2 rounded-full text-sm font-bold bg-green-600 text-white">
-                                        Tersedia
-                                    </span>
-                                @elseif ($alat->status === 'pending')
-                                    <span class="px-5 py-2 rounded-full text-sm font-bold bg-yellow-500 text-white">
-                                        Pending
+                                @if ($displayOrder)
+                                    <span
+                                        class="inline-flex flex-col items-center bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold leading-tight shadow-lg">
+                                        Disewa
+                                        <br>
+                                        <span class="text-xs font-normal opacity-90">
+                                            {{ \Carbon\Carbon::parse($displayOrder->tgl_mulai)->format('d M') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($displayOrder->tgl_selesai)->format('d M Y') }}
+                                        </span>
                                     </span>
                                 @else
-                                    <span class="px-5 py-2 rounded-full text-sm font-bold bg-red-600 text-white">
-                                        Disewa
+                                    <span
+                                        class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                                        Tersedia
                                     </span>
                                 @endif
                             </div>
@@ -131,10 +149,23 @@
                                 Rp {{ number_format($alat->harga_sewa) }} <span class="text-xl font-normal">/
                                     hari</span>
                             </div>
-                            <a href="{{ route('sewa.form', $alat) }}"
-                                class="block w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-lg py-4 rounded-xl text-center transition transform hover:scale-105 shadow-md">
-                                SEWA SEKARANG
-                            </a>
+                            @if ($displayOrder)
+                                <a href="{{ route('sewa.form', $alat) }}"
+                                    class="block w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-lg py-4 rounded-xl text-center transition">
+                                    BOOKING SEKARANG
+                                </a>
+                                <p class="text-sm text-gray-500 mt-2 text-center">
+                                    Sedang disewa sampai
+                                    {{ \Carbon\Carbon::parse($displayOrder->tgl_selesai)->format('d M Y') }} —
+                                    booking untuk tanggal lain
+                                </p>
+                            @else
+                                <a href="{{ route('sewa.form', $alat) }}"
+                                    class="block w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-lg py-4 rounded-xl text-center transition">
+                                    SEWA SEKARANG
+                                </a>
+                            @endif
+
                         </div>
                     </div>
                 @empty

@@ -9,7 +9,11 @@ class FrontendAlatController extends Controller
 {
     public function index()
     {
-        $alats = Alat::all();
+        $alats = Alat::with(['pesanans' => function ($q) {
+            $q->where('status', 'diterima')
+                ->orderBy('tgl_mulai');
+        }])->get();
+
         return view('home', compact('alats'));
     }
 }

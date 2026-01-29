@@ -33,3 +33,10 @@
 
     .:27/01/2026:.
     feat: improve booking flow with status-based availability (antidoublebook) and success toast UX
+
+    .:29/01/2026:.
+    fix(home): make availability badge & CTA date-aware
+    - Show active/next accepted booking range on home cards
+    - Allow booking CTA even when unit is currently rented
+    - Prevent misleading single-date badge when multiple bookings exist
+    improve: clarify rental status and enable future-date booking

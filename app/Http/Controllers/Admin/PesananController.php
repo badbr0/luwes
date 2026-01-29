@@ -38,25 +38,50 @@ class PesananController extends Controller
         $statusBaru = $request->status;
         $alat = $pesanan->alat;
 
-        // GUARD: jangan nerima pesanan kalau alat sudah disewa
-        if ($statusBaru === 'diterima' && $alat->status === 'disewa') {
-            return back()->with('error', 'Alat sedang disewa, tidak bisa diterima.');
-        }
+        /**
+         * GUARD LOGIS
+         */
 
+        // ❌ Tidak boleh langsung selesai kalau belum diterima
         if ($statusBaru === 'selesai' && $pesanan->status !== 'diterima') {
             return back()->with('error', 'Pesanan harus diterima dulu sebelum diselesaikan.');
         }
 
-        // UPDATE STATUS PESANAN
+        // ❌ Cek BENTROK, BUKAN status alat
+        if ($statusBaru === 'diterima') {
+            $conflict = Pesanan::where('alat_id', $alat->id)
+                ->where('status', 'diterima')
+                ->where('id', '!=', $pesanan->id)
+                ->where('tgl_mulai', '<=', $pesanan->tgl_selesai)
+                ->where('tgl_selesai', '>=', $pesanan->tgl_mulai)
+                ->exists();
+
+            if ($conflict) {
+                return back()->with('error', 'Alat sudah dipakai di tanggal tersebut.');
+            }
+        }
+
+        /**
+         * UPDATE STATUS PESANAN
+         */
         $pesanan->update(['status' => $statusBaru]);
 
-        // SIDE EFFECT KE ALAT
+        /**
+         *  SIDE EFFECT KE ALAT
+         */
         if ($statusBaru === 'diterima') {
             $alat->update(['status' => 'disewa']);
         }
 
         if ($statusBaru === 'selesai') {
-            $alat->update(['status' => 'tersedia']);
+            // cek apakah masih ada pesanan diterima lain
+            $masihDipakai = Pesanan::where('alat_id', $alat->id)
+                ->where('status', 'diterima')
+                ->exists();
+
+            if (! $masihDipakai) {
+                $alat->update(['status' => 'tersedia']);
+            }
         }
 
         return redirect()
