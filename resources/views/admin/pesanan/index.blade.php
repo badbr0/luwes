@@ -47,59 +47,109 @@
                                 <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @forelse($pesanans as $index => $pesanan)
-                                <tr>
-                                    <td class="px-6 py-4 text-sm">{{ $pesanans->firstItem() + $loop->index }}</td>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                            @forelse ($pesanans as $pesanan)
+                                <tr class="hover:bg-gray-50 transition">
+                                    {{-- No --}}
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        {{ $pesanans->firstItem() + $loop->index }}
+                                    </td>
+
+                                    {{-- Customer --}}
                                     <td class="px-6 py-4">
-                                        <div class="text-sm font-medium">{{ $pesanan->nama_penyewa }}</div>
-                                        <div class="text-sm text-gray-500">{{ $pesanan->no_hp }}</div>
+                                        <div class="font-medium text-gray-900">
+                                            {{ $pesanan->nama_penyewa }}
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            {{ $pesanan->no_hp }}
+                                        </div>
                                     </td>
-                                    <td class="px-6 py-4 text-sm">{{ $pesanan->alat->merk }}
-                                        ({{ ucwords(str_replace('_', ' ', $pesanan->alat->tipe)) }})
+
+                                    {{-- Alat --}}
+                                    <td class="px-6 py-4 text-sm text-gray-700">
+                                        <div class="font-medium">
+                                            {{ $pesanan->alat->merk }}
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            {{ ucwords(str_replace('_', ' ', $pesanan->alat->tipe)) }}
+                                        </div>
                                     </td>
+
+                                    {{-- Tanggal --}}
                                     <td class="px-6 py-4 text-sm">
-                                        {{ $pesanan->tgl_mulai->format('d/m/Y') }} -
-                                        {{ $pesanan->tgl_selesai->format('d/m/Y') }}
-                                        <br><small class="text-gray-500">{{ $pesanan->total_hari }} hari</small>
+                                        <div class="text-gray-900">
+                                            {{ $pesanan->tgl_mulai->format('d/m/Y') }}
+                                            –
+                                            {{ $pesanan->tgl_selesai->format('d/m/Y') }}
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            {{ $pesanan->total_hari }} hari
+                                        </div>
                                     </td>
-                                    <td class="px-6 py-4 text-sm font-semibold">
-                                        Rp {{ number_format($pesanan->total_biaya) }}
+
+                                    {{-- Total Biaya --}}
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="font-bold text-gray-900 text-sm">
+                                            Rp {{ number_format($pesanan->total_biaya) }}
+                                        </div>
+                                        {{-- badge pr --}}
+                                        @if ($pesanan->status === 'pending' && $pesanan->is_high_value)
+                                            <span title="Durasi ≥ 7 hari atau Total ≥ 50 juta"
+                                                class="mt-1 inline-flex items-center gap-1
+                       rounded-full bg-blue-600 px-2.5 py-0.5
+                       text-[10px] font-bold tracking-wide text-white
+                       hover:bg-blue-700 transition
+                       cursor-help shadow-sm">
+                                                💰 HIGH VALUE
+                                            </span>
+                                        @endif
                                     </td>
+
+                                    {{-- Status --}}
                                     <td class="px-6 py-4">
                                         <form action="{{ route('admin.pesanan.updateStatus', $pesanan) }}"
                                             method="POST">
                                             @csrf
                                             @method('PATCH')
-                                            <select name="status" onchange="this.form.submit()"
-                                                class="px-3 py-1 rounded-full text-xs font-semibold
-                                                {{ $pesanan->status == 'pending' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                                {{ $pesanan->status == 'diterima' ? 'bg-blue-100 text-blue-800' : '' }}
-                                                {{ $pesanan->status == 'selesai' ? 'bg-green-100 text-green-800' : '' }}">
+
+                                            <select name="status"
+                                                onchange="if(confirm('Ubah status pesanan ini?')) this.form.submit(); else this.selectedIndex = this.defaultSelected;"
+                                                class="rounded-full px-3 py-1 text-xs font-semibold focus:outline-none
+                {{ match ($pesanan->status) {
+                    'pending' => 'bg-yellow-100 text-yellow-800',
+                    'diterima' => 'bg-blue-100 text-blue-800',
+                    'selesai' => 'bg-green-100 text-green-800',
+                } }}">
                                                 <option value="pending"
-                                                    {{ $pesanan->status == 'pending' ? 'selected' : '' }}>Pending
+                                                    {{ $pesanan->status === 'pending' ? 'selected' : '' }}>Pending
                                                 </option>
                                                 <option value="diterima"
-                                                    {{ $pesanan->status == 'diterima' ? 'selected' : '' }}>Diterima
+                                                    {{ $pesanan->status === 'diterima' ? 'selected' : '' }}>Diterima
                                                 </option>
                                                 <option value="selesai"
-                                                    {{ $pesanan->status == 'selesai' ? 'selected' : '' }}>Selesai
+                                                    {{ $pesanan->status === 'selesai' ? 'selected' : '' }}>Selesai
                                                 </option>
                                             </select>
                                         </form>
                                     </td>
+
+                                    {{-- Aksi --}}
                                     <td class="px-6 py-4 text-right text-sm">
                                         <a href="{{ route('admin.pesanan.show', $pesanan) }}"
-                                            class="text-indigo-600 hover:text-indigo-900">Detail</a>
+                                            class="font-medium text-indigo-600 hover:text-indigo-900">
+                                            Detail →
+                                        </a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">Belum ada pesanan
-                                        masuk.</td>
+                                    <td colspan="7" class="px-6 py-6 text-center text-sm text-gray-500">
+                                        Belum ada pesanan masuk.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
+
                     </table>
                     <div class="mt-6">
                         {{ $pesanans->links() }}

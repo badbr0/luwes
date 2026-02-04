@@ -29,4 +29,10 @@ class Pesanan extends Model
     {
         return $this->belongsTo(Alat::class);
     }
+
+    public function getIsHighValueAttribute(): bool
+    {
+        return $this->total_hari >= 7
+            || $this->total_biaya >= 50000000;
+    }
 }
